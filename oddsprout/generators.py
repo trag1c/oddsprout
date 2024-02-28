@@ -28,7 +28,7 @@ config = {
     "charset": "ascii",
 }
 
-# TODO(trag1c): refactor this to use a class
+# TODO(trag1c): refactor this
 
 
 def generate_string() -> str:
