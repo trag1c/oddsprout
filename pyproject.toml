@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "oddsprout"
+version = "0.1.0"
+description = "Generate random JSON with no schemas involved"
+authors = ["trag1c <trag1cdev@yahoo.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+ixia = "^1.3.1"
+tomli = { version = "^2.0.1", python = "<3.11" }
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.2.2"
+mypy = "^1.8.0"
+pytest = "^8.0.2"
+coverage = "^7.4.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
