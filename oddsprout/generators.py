@@ -72,14 +72,13 @@ TYPE_POOL_WEIGHTS = (1, 1, 1, 1, 0.05, 0.05, 1)
 
 
 def generate_value(*, initial: bool = False) -> JSONValue:
-    if initial:
-        size = rand_int(0, config["base_size"])
-        if config["base_type"] == "any":
-            config["base_type"] = choice(("object", "array"))
-        return (
-            generate_object(size)
-            if config["base_type"] == "object"
-            else generate_array(size)
-        )
-    return choice(TYPE_POOL, TYPE_POOL_WEIGHTS)()
-    # TODO(trag1c): flip logic
+    if not initial:
+        return choice(TYPE_POOL, TYPE_POOL_WEIGHTS)()
+    size = rand_int(0, config["base_size"])
+    if config["base_type"] == "any":
+        config["base_type"] = choice(("object", "array"))
+    return (
+        generate_object(size)
+        if config["base_type"] == "object"
+        else generate_array(size)
+    )
