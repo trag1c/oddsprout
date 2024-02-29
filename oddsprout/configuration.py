@@ -34,15 +34,6 @@ def _check_unexpected_items(items: set[str], err_msg_nouns: tuple[str, str]) -> 
     raise OddsproutConfigurationError(msg)
 
 
-"""[bounds]
-base = [10, 100]
-string = [10, 50]
-collection = [5, 10]
-base-max = 100
-string-max = 50
-collection-max = 10"""
-
-
 def _check_bounds_config(config: dict[str, Any]) -> None:
     _check_unexpected_items(config.keys() - BOUNDS_KEYS, ("key", "keys"))
     for key, value in config.items():
