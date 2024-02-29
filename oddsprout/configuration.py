@@ -59,8 +59,13 @@ def _check_bounds_config(config: dict[str, Any]) -> None:
 def _check_types_config(config: dict[str, Any]) -> None:
     _check_unexpected_items(config.keys() - TYPES_KEYS, ("key", "keys"))
 
-    # TODO(trag1c): fix this (will cause a TypeError if someone makes charset a list)
-    if (charset := config["charset"]) not in CHARSETS:
+    if not isinstance(charset := config["charset"], str):
+        msg = (
+            "expected a string for 'charset' "
+            f"(one of {', '.join(map(repr, CHARSETS))})"
+        )
+        raise OddsproutConfigurationError(msg)
+    if charset not in CHARSETS:
         msg = (
             f"invalid charset {charset!r} "
             "(valid options: 'ascii', 'alpha', 'alnum', 'digits')"
