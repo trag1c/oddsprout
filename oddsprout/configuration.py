@@ -51,22 +51,21 @@ collection-max = 10"""
 def _check_bounds_config(config: dict[str, Any]) -> None:
     _check_unexpected_items(config.keys() - BOUNDS_KEYS, ("key", "keys"))
     for key, value in config.items():
-        msg = ""
         if key.endswith("-max"):
             if not isinstance(value, int):
                 msg = f"expected an integer for {key!r}"
-            # TODO(trag1c): add a continue here?
-        else:
-            if f"{key}-max" in config:
-                msg = f"can't use {key!r} and '{key}-max' at once"
-            if not (
-                isinstance(value, list)
-                and len(value) == 2
-                and isinstance(value[0], int)
-                and isinstance(value[1], int)
-            ):
-                msg = f"expected a [min, max] array for {key}"
-        if msg:
+                raise OddsproutConfigurationError(msg)
+            continue
+        if f"{key}-max" in config:
+            msg = f"can't use {key!r} and '{key}-max' at once"
+            raise OddsproutConfigurationError(msg)
+        if not (
+            isinstance(value, list)
+            and len(value) == 2
+            and isinstance(value[0], int)
+            and isinstance(value[1], int)
+        ):
+            msg = f"expected a [min, max] array for {key!r}"
             raise OddsproutConfigurationError(msg)
 
 
