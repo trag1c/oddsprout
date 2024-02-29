@@ -4,8 +4,15 @@ import sys
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
+from oddsprout.constants import (
+    BASE_TYPES,
+    BOUNDS_KEYS,
+    CATEGORIES,
+    CHARSETS,
+    TYPES,
+    TYPES_KEYS,
+)
 from oddsprout.exceptions import OddsproutConfigurationError
-from oddsprout.generators import CHARSETS
 
 if TYPE_CHECKING:
     from os import PathLike
@@ -14,18 +21,6 @@ if sys.version_info < (3, 11):
     from tomli import TOMLDecodeError, loads
 else:
     from tomllib import TOMLDecodeError, loads
-
-
-# TODO(trag1c): consider exporting these constants to a separate module
-TYPES = frozenset(
-    ("int", "float", "number", "string", "boolean", "null", "array", "object")
-)
-BASE_TYPES = frozenset(("any", "array", "object"))
-CATEGORIES = frozenset(("bounds", "types"))
-TYPES_KEYS = frozenset(("charset", "base", "exclude", "include"))
-BOUNDS_KEYS = frozenset(
-    ("collection", "collection-max", "base", "base-max", "string", "string-max")
-)
 
 
 def _check_unexpected_items(items: set[str], err_msg_nouns: tuple[str, str]) -> None:

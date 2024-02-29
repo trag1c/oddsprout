@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-import string
 import sys
 from typing import Dict, List, Union
 
 from ixia import choice, choices, rand_bool, rand_int, uniform
+
+from oddsprout.constants import CHARSETS
 
 sys.setrecursionlimit(5_000)
 
@@ -12,13 +13,6 @@ JSONObject = Dict[str, "JSONValue"]
 JSONArray = List["JSONValue"]
 JSONValue = Union[JSONObject, JSONArray, str, int, float, bool, None]
 NoneType = type(None)
-
-CHARSETS = {
-    "ascii": "".join(map(chr, range(128))),
-    "alpha": string.ascii_letters,
-    "alnum": string.ascii_letters + string.digits,
-    "digits": string.digits,
-}
 
 config = {
     "base_size": 100,
