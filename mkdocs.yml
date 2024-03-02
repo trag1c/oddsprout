@@ -1,0 +1,30 @@
+site_name: Oddsprout Documentation
+repo_url: https://github.com/trag1c/oddsprout
+repo_name: trag1c/oddsprout
+copyright: Copyright &copy; 2024 trag1c
+nav:
+  - Home: index.md
+  - Usage: usage.md
+  - Configuration: configuration.md
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: amber
+      accent: amber
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Enable dark mode
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: amber
+      accent: amber
+      toggle:
+        icon: material/toggle-switch
+        name: Disable dark mode
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences

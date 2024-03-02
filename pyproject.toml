@@ -16,6 +16,8 @@ ruff = "^0.2.2"
 mypy = "^1.8.0"
 pytest = "^8.0.2"
 coverage = "^7.4.3"
+mkdocs = "^1.5.3"
+mkdocs-material = "^9.5.12"
 
 [tool.ruff.lint]
 select = ["ALL"]
