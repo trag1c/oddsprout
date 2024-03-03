@@ -5,7 +5,7 @@ from typing import Dict, List, Union
 
 from ixia import choice, choices, rand_bool, rand_int, uniform
 
-from oddsprout.constants import CHARSETS
+from oddsprout.constants import CHARSETS, TYPES
 
 sys.setrecursionlimit(5_000)
 
@@ -15,11 +15,12 @@ JSONValue = Union[JSONObject, JSONArray, str, int, float, bool, None]
 NoneType = type(None)
 
 config = {
-    "base_size": 100,
-    "base_type": "any",
-    "string_size": 50,
-    "collection_size": 10,
+    "base_size": (0, 100),
+    "base": "any",
+    "string_size": (0, 50),
+    "collection_size": (0, 10),
     "charset": "ascii",
+    "types": list(TYPES),
 }
 
 # TODO(trag1c): refactor this
@@ -27,7 +28,7 @@ config = {
 
 def generate_string() -> str:
     return "".join(
-        choices(CHARSETS[config["charset"]], k=rand_int(0, config["string_size"]))
+        choices(CHARSETS[config["charset"]], k=rand_int(*config["string_size"]))
     )
 
 
@@ -42,13 +43,13 @@ def generate_float() -> float:
 def generate_object(size: int | None = None) -> JSONObject:
     return {
         generate_string(): generate_value()
-        for _ in range(size or rand_int(0, config["collection_size"]))
+        for _ in range(size or rand_int(*config["collection_size"]))
     }
 
 
 def generate_array(size: int | None = None) -> JSONArray:
     return [
-        generate_value() for _ in range(size or rand_int(0, config["collection_size"]))
+        generate_value() for _ in range(size or rand_int(*config["collection_size"]))
     ]
 
 
@@ -68,11 +69,7 @@ TYPE_POOL_WEIGHTS = (1, 1, 1, 1, 0.05, 0.05, 1)
 def generate_value(*, initial: bool = False) -> JSONValue:
     if not initial:
         return choice(TYPE_POOL, TYPE_POOL_WEIGHTS)()
-    size = rand_int(0, config["base_size"])
-    if config["base_type"] == "any":
-        config["base_type"] = choice(("object", "array"))
-    return (
-        generate_object(size)
-        if config["base_type"] == "object"
-        else generate_array(size)
-    )
+    size = rand_int(*config["base_size"])
+    if config["base"] == "any":
+        config["base"] = choice(("object", "array"))
+    return generate_object(size) if config["base"] == "object" else generate_array(size)
