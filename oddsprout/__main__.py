@@ -7,7 +7,7 @@ from oddsprout.generators import generate_value
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument("--config", type=Path, help="Path to the configuration file.")
+    parser.add_argument("--config", type=Path, help="path to configuration file")
     try:
         print(json.dumps(generate_value(initial=True), indent=2))
     except RecursionError:
