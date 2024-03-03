@@ -3,6 +3,8 @@ import sys
 from argparse import ArgumentParser
 from pathlib import Path
 
+from dahlia import dahlia, dprint
+
 from oddsprout.configuration import load_config
 from oddsprout.exceptions import OddsproutError
 from oddsprout.generators import config, generate_value
@@ -16,9 +18,9 @@ if __name__ == "__main__":
         try:
             print(json.dumps(generate_value(initial=True), indent=2))
         except RecursionError:
-            print(
-                "ERROR: Failed to generate a JSON with the given collection size.",
+            dprint(
+                "&4ERROR:&r Failed to generate a JSON with the given collection size.",
                 file=sys.stderr,
             )
     except OddsproutError as e:
-        sys.exit(f"ERROR: {e}")
+        sys.exit(dahlia(f"&4ERROR:&r {e}"))

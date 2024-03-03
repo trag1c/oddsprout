@@ -217,6 +217,17 @@ files = [
 toml = ["tomli"]
 
 [[package]]
+name = "dahlia"
+version = "2.3.2"
+description = "A library allowing you to use Minecraft format codes in strings."
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "dahlia-2.3.2-py3-none-any.whl", hash = "sha256:5c654807ed6174b9ab1379813728026ab302f79fcc1a3a567adaa2d16e126a3c"},
+    {file = "dahlia-2.3.2.tar.gz", hash = "sha256:8872180125942f031c65bad0da7a6e30be5c2926d52c071a5d7c7ef0cef397f6"},
+]
+
+[[package]]
 name = "exceptiongroup"
 version = "1.2.0"
 description = "Backport of PEP 654 (exception groups)"
