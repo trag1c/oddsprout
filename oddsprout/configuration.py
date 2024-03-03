@@ -91,7 +91,10 @@ def _check_types_config(config: dict[str, Any]) -> None:
 
     # TODO(trag1c): warn about duplicated values in include/exclude
 
-    if conflicting_types := set(config["exclude"]) & set(config["include"]):
+    # TODO(trag1c): this actually shouldn't work at all in any case
+    if conflicting_types := set(config.get("exclude", set())) & set(
+        config.get("include", set())
+    ):
         template = "can't include and exclude type{} at once"
         if len(conflicting_types) == 1:
             msg = template.format(f" {conflicting_types.pop()!r}")
