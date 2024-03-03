@@ -4,6 +4,8 @@ import sys
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, cast
 
+from dahlia import dprint
+
 from oddsprout.constants import (
     BASE_TYPES,
     BOUNDS_KEYS,
@@ -85,12 +87,14 @@ def _check_types_config(config: dict[str, Any]) -> None:
         ):  # TODO(trag1c): make a util for this^^^?
             msg = f"expected an array of type names for {key!r}"
             raise OddsproutConfigurationError(msg)
-        for item in value:
+        for item in set(value):
             if item not in TYPES:
                 msg = f"invalid type {item!r} in {key!r}"
                 raise OddsproutConfigurationError(msg)
-
-    # TODO(trag1c): warn about duplicated values in include/exclude
+            if value.count(item) > 1:
+                dprint(
+                    f"&eWARNING:&r duplicated type {item!r} in {key!r}", file=sys.stderr
+                )
 
     # TODO(trag1c): this actually shouldn't work at all in any case
     if conflicting_types := set(config.get("exclude", set())) & set(
