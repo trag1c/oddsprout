@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import sys
-from typing import Dict, List, Union
+from typing import Dict, List, Literal, TypedDict, Union
 
 from ixia import choice, choices, rand_bool, rand_int, uniform
 
@@ -14,7 +14,17 @@ JSONArray = List["JSONValue"]
 JSONValue = Union[JSONObject, JSONArray, str, int, float, bool, None]
 NoneType = type(None)
 
-config = {
+
+class Config(TypedDict):
+    base_size: tuple[int, int]
+    string_size: tuple[int, int]
+    collection_size: tuple[int, int]
+    charset: Literal["ascii", "alpha", "alnum", "digits"]
+    base: Literal["any", "array", "object"]
+    types: list[str]
+
+
+config: Config = {
     "base_size": (0, 100),
     "base": "any",
     "string_size": (0, 50),

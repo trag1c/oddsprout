@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
 from oddsprout.constants import (
     BASE_TYPES,
@@ -13,6 +13,7 @@ from oddsprout.constants import (
     TYPES_KEYS,
 )
 from oddsprout.exceptions import OddsproutConfigurationError
+from oddsprout.generators import Config
 
 if TYPE_CHECKING:
     from os import PathLike
@@ -99,7 +100,19 @@ def _check_types_config(config: dict[str, Any]) -> None:
         raise OddsproutConfigurationError(msg)
 
 
-def load_config(path: PathLike[str] | str) -> dict[str, int]:
+def _transform_config(config: dict[str, Any]) -> Config:
+    transformed = {}
+    for key, value in config.get("bounds", {}).items():
+        new_key = (key[:-4] if key.endswith("-max") else key) + "_size"
+        if key.endswith("-max"):
+            transformed[new_key] = (0, value)
+        else:
+            transformed[new_key] = tuple(value)
+    transformed.update(config["types"])
+    return cast(Config, transformed)
+
+
+def load_config(path: PathLike[str] | str) -> Config:
     try:
         config = loads(Path(path).read_text())
     except TOMLDecodeError as e:
@@ -113,7 +126,7 @@ def load_config(path: PathLike[str] | str) -> dict[str, int]:
         _check_bounds_config(config["bounds"])
     if "types" in found_categories:
         _check_types_config(config["types"])
-    return config
+    return _transform_config(config)
 
 
 if __name__ == "__main__":
