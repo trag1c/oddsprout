@@ -78,7 +78,8 @@ def _check_types_config(config: dict[str, Any]) -> None:
         raise OddsproutConfigurationError(msg)
 
     for key in ("exclude", "include"):
-        value = config[key]
+        if (value := config.get(key)) is None:
+            continue
         if not (
             isinstance(value, list) and all(isinstance(item, str) for item in value)
         ):  # TODO(trag1c): make a util for this^^^?
