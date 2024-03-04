@@ -132,3 +132,25 @@ def test_check_types_config_pass() -> None:
 )
 def test_transform_config(config: dict[str, Any], transformed: Config) -> None:
     assert _transform_config(config) == transformed
+
+
+def test_load_config_pass(tmp_path: Path) -> None:
+    path = tmp_path / "config.toml"
+    path.write_text(
+        """
+        [bounds]
+        base = [1, 2]
+        string-max = 10
+
+        [types]
+        charset = "ascii"
+        exclude = ["string", "array", "null"]
+        """
+    )
+
+    assert load_config(path) == {
+        "base_size": (1, 2),
+        "string_size": (0, 10),
+        "charset": "ascii",
+        "types": ["boolean", "float", "int", "number", "object"],
+    }
