@@ -90,6 +90,7 @@ def test_check_bounds_config_pass() -> None:
         ({"exclude": ["invalid"]}, "invalid type 'invalid' in 'exclude'"),
         ({"include": 1}, "expected an array of type names for 'include'"),
         ({"include": ["invalid"]}, "invalid type 'invalid' in 'include'"),
+        ({"include": [], "exclude": []}, "can't use 'include' and 'exclude' at once")
     ],
 )
 def test_check_types_config_fail(config: dict[str, Any], err_msg: str) -> None:
