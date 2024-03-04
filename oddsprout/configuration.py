@@ -44,7 +44,9 @@ def _check_bounds_config(config: dict[str, Any]) -> None:
             if not isinstance(value, int):
                 msg = f"expected an integer for {key!r}"
                 raise OddsproutConfigurationError(msg)
-            continue
+            # NOTE: Disabling coverage for 'continue' since CPython's peephole optimizer
+            # never executes it. See: https://github.com/nedbat/coveragepy/issues/198
+            continue  # pragma: no cover
         if f"{key}-max" in config:
             msg = f"can't use {key!r} and '{key}-max' at once"
             raise OddsproutConfigurationError(msg)
