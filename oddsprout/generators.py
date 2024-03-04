@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import sys
-from typing import Dict, List, Literal, TypedDict, Union
+from dataclasses import dataclass
+from typing import Dict, List, Literal, Union
 
 from ixia import choice, choices, rand_bool, rand_int, uniform
 
-from oddsprout.constants import CHARSETS, TYPES
+from oddsprout.constants import CHARSETS
 
 sys.setrecursionlimit(5_000)
 
@@ -15,71 +16,69 @@ JSONValue = Union[JSONObject, JSONArray, str, int, float, bool, None]
 NoneType = type(None)
 
 
-class Config(TypedDict):
-    base_size: tuple[int, int]
-    string_size: tuple[int, int]
-    collection_size: tuple[int, int]
-    charset: Literal["ascii", "alpha", "alnum", "digits"]
-    base: Literal["any", "array", "object"]
+@dataclass
+class Config:
     types: list[str]
+    base_size: tuple[int, int] = (0, 100)
+    string_size: tuple[int, int] = (0, 50)
+    collection_size: tuple[int, int] = (0, 100)
+    charset: Literal["ascii", "alpha", "alnum", "digits"] = "ascii"
+    base: Literal["any", "array", "object"] = "any"
 
 
-config: Config = {
-    "base_size": (0, 100),
-    "base": "any",
-    "string_size": (0, 50),
-    "collection_size": (0, 10),
-    "charset": "ascii",
-    "types": list(TYPES),
-}
+class JSONGenerator:
+    def __init__(self, config: Config) -> None:
+        type_map = {
+            "object": self._generate_object,
+            "array": self._generate_array,
+            "string": self._generate_string,
+            "int": _generate_int,
+            "float": _generate_float,
+            "boolean": rand_bool,
+            "null": NoneType,
+        }
+        types = config.types
 
-# TODO(trag1c): refactor this
+        self._config = config
+        self._string_size = config.string_size
+        self._collection_size = config.collection_size
+        self._type_pool = tuple(type_map[t] for t in types)
+        self._weights = tuple(0.05 if t in {"object", "array"} else 1 for t in types)
+        self._charset = CHARSETS[config.charset]
+
+    def generate_value(self) -> JSONValue:
+        base = self._config.base
+        size = rand_int(*self._config.base_size)
+        if base == "any":
+            base = choice(("object", "array"))
+        return (
+            self._generate_object(size)
+            if base == "object"
+            else self._generate_array(size)
+        )
+
+    def _generate_value(self) -> JSONValue:
+        return choice(self._type_pool, self._weights)()
+
+    def _generate_string(self) -> str:
+        return "".join(choices(self._charset, k=rand_int(*self._string_size)))
+
+    def _generate_object(self, size: int | None = None) -> JSONObject:
+        return {
+            self._generate_string(): self._generate_value()
+            for _ in range(size or rand_int(*self._collection_size))
+        }
+
+    def _generate_array(self, size: int | None = None) -> JSONArray:
+        return [
+            self._generate_value()
+            for _ in range(size or rand_int(*self._collection_size))
+        ]
 
 
-def generate_string() -> str:
-    return "".join(
-        choices(CHARSETS[config["charset"]], k=rand_int(*config["string_size"]))
-    )
-
-
-def generate_int() -> int:
+def _generate_int() -> int:
     return rand_int(-1_000_000, 1_000_000)
 
 
-def generate_float() -> float:
+def _generate_float() -> float:
     return uniform(-1_000_000, 1_000_000)
-
-
-def generate_object(size: int | None = None) -> JSONObject:
-    return {
-        generate_string(): generate_value()
-        for _ in range(size or rand_int(*config["collection_size"]))
-    }
-
-
-def generate_array(size: int | None = None) -> JSONArray:
-    return [
-        generate_value() for _ in range(size or rand_int(*config["collection_size"]))
-    ]
-
-
-TYPE_POOL = (
-    generate_int,
-    generate_float,
-    rand_bool,
-    generate_string,
-    generate_object,
-    generate_array,
-    NoneType,
-)
-CONTAINER_TYPE_POOL = (generate_object, generate_array)
-TYPE_POOL_WEIGHTS = (1, 1, 1, 1, 0.05, 0.05, 1)
-
-
-def generate_value(*, initial: bool = False) -> JSONValue:
-    if not initial:
-        return choice(TYPE_POOL, TYPE_POOL_WEIGHTS)()
-    size = rand_int(*config["base_size"])
-    if config["base"] == "any":
-        config["base"] = choice(("object", "array"))
-    return generate_object(size) if config["base"] == "object" else generate_array(size)
