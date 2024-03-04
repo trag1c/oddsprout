@@ -102,3 +102,13 @@ def test_check_types_config_duplicate(capsys: pytest.CaptureFixture[str]) -> Non
     _check_types_config({"exclude": ["string", "string"]})
     _out, err = capsys.readouterr()
     assert err == dahlia("&eWARNING:&r duplicated type 'string' in 'exclude'") + "\n"
+
+
+def test_check_types_config_pass() -> None:
+    _check_types_config(
+        {
+            "charset": "ascii",
+            "base": "any",
+            "exclude": ["string"],
+        }
+    )
