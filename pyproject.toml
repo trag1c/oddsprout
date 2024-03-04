@@ -20,12 +20,15 @@ coverage = "^7.4.3"
 mkdocs = "^1.5.3"
 mkdocs-material = "^9.5.12"
 
+[tool.coverage.report]
+exclude_also = ["if TYPE_CHECKING:", "if sys.version_info.*:"]
+
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = ["COM", "D", "FIX", "ISC001", "T201", "TD003", "PLR2004"]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["INP", "FBT", "S101"]
+"tests/*" = ["INP", "FBT", "PLC2701", "S101"]
 
 [build-system]
 requires = ["poetry-core"]
