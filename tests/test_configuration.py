@@ -85,10 +85,10 @@ def test_check_bounds_config_pass() -> None:
         ({"charset": 1}, "expected a string for 'charset'"),
         ({"charset": "invalid"}, "invalid charset 'invalid'"),
         ({"base": "invalid"}, "invalid base type 'invalid'"),
-        ({"exclude": 1}, "expected a list for 'exclude'"),
-        ({"exclude": ["invalid"]}, "expected a string for 'exclude'"),
-        ({"include": 1}, "expected a list for 'include'"),
-        ({"include": ["invalid"]}, "expected a string for 'include'"),
+        ({"exclude": 1}, "expected an array of type names for 'exclude'"),
+        ({"exclude": ["invalid"]}, "invalid type 'invalid' in 'exclude'"),
+        ({"include": 1}, "expected an array of type names for 'include'"),
+        ({"include": ["invalid"]}, "invalid type 'invalid' in 'include'"),
     ],
 )
 def test_check_types_config_fail(config: dict[str, Any], err_msg: str) -> None:
