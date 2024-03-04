@@ -111,7 +111,7 @@ def _transform_config(config: dict[str, Any]) -> Config:
             transformed[new_key] = (0, value)
         else:
             transformed[new_key] = tuple(value)
-    transformed.update(config["types"])
+    transformed.update(config.get("types", {}))
     return cast(Config, transformed)
 
 
