@@ -107,10 +107,7 @@ def _transform_config(config: dict[str, Any]) -> Config:
     transformed = {}
     for key, value in config.get("bounds", {}).items():
         new_key = (key[:-4] if key.endswith("-max") else key) + "_size"
-        if key.endswith("-max"):
-            transformed[new_key] = (0, value)
-        else:
-            transformed[new_key] = tuple(value)
+        transformed[new_key] = (0, value) if key.endswith("-max") else tuple(value)
     types_config = config.get("types", {})
     if included_types := types_config.pop("include", []):
         transformed["types"] = included_types
