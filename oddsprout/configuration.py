@@ -21,9 +21,9 @@ if TYPE_CHECKING:
     from os import PathLike
 
 if sys.version_info < (3, 11):
-    from tomli import TOMLDecodeError, loads
+    import tomli as toml
 else:
-    from tomllib import TOMLDecodeError, loads
+    import tomllib as toml
 
 
 def _check_unexpected_items(items: set[str], err_msg_nouns: tuple[str, str]) -> None:
@@ -122,8 +122,8 @@ def _transform_config(config: dict[str, Any]) -> Config:
 
 def load_config(path: PathLike[str] | str) -> Config:
     try:
-        config = loads(Path(path).read_text())
-    except TOMLDecodeError as e:
+        config = toml.loads(Path(path).read_text())
+    except toml.TOMLDecodeError as e:
         raise OddsproutConfigurationError(str(e)) from None
         # TODO(trag1c): reconsider the above line (maybe add a prefix saying
         # it's a TOML error or maybe just use the original exception)
