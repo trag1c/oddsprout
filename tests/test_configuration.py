@@ -11,11 +11,14 @@ from oddsprout.configuration import (
     _check_bounds_config,
     _check_types_config,
     _check_unexpected_items,
+    _transform_config,
     load_config,
 )
 
 if TYPE_CHECKING:
     from pathlib import Path
+
+    from oddsprout.generators import Config
 
 
 def test_invalid_syntax_toml(tmp_path: Path) -> None:
@@ -112,3 +115,20 @@ def test_check_types_config_pass() -> None:
             "exclude": ["string"],
         }
     )
+
+
+@pytest.mark.parametrize(
+    ("config", "transformed"),
+    [
+        (
+            {"bounds": {"base": [1, 2]}},
+            {"base_size": (1, 2)},
+        ),
+        (
+            {"bounds": {"base": [1, 2], "string-max": 10}},
+            {"base_size": (1, 2), "string_size": (0, 10)},
+        ),
+    ],
+)
+def test_transform_config(config: dict[str, Any], transformed: Config) -> None:
+    assert _transform_config(config) == transformed
