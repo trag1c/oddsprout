@@ -111,7 +111,13 @@ def _transform_config(config: dict[str, Any]) -> Config:
             transformed[new_key] = (0, value)
         else:
             transformed[new_key] = tuple(value)
-    transformed.update(config.get("types", {}))
+    types_config = config.get("types", {})
+    if included_types := types_config.pop("include", []):
+        transformed["types"] = included_types
+    if excluded_types := types_config.pop("exclude", []):
+        # assuming "include" is not defined based on prior checks
+        transformed["types"] = sorted(set(TYPES) - set(excluded_types))
+    transformed.update(types_config)
     return cast(Config, transformed)
 
 
