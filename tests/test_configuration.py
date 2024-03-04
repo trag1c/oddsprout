@@ -4,6 +4,7 @@ import re
 from typing import TYPE_CHECKING, Any
 
 import pytest
+from dahlia import dahlia
 
 from oddsprout.configuration import (
     OddsproutConfigurationError,
@@ -94,3 +95,9 @@ def test_check_bounds_config_pass() -> None:
 def test_check_types_config_fail(config: dict[str, Any], err_msg: str) -> None:
     with pytest.raises(OddsproutConfigurationError, match=re.escape(err_msg)):
         _check_types_config(config)
+
+
+def test_check_types_config_duplicate(capsys: pytest.CaptureFixture[str]) -> None:
+    _check_types_config({"exclude": ["string", "string"]})
+    _out, err = capsys.readouterr()
+    assert err == dahlia("&eWARNING:&r duplicated type 'string' in 'exclude'") + "\n"
