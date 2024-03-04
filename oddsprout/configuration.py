@@ -133,7 +133,3 @@ def load_config(path: PathLike[str] | str) -> Config:
     if "types" in found_categories:
         _check_types_config(config["types"])
     return _transform_config(config)
-
-
-if __name__ == "__main__":
-    load_config("../oddsprout.toml")
