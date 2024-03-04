@@ -19,9 +19,20 @@ pytest = "^8.0.2"
 coverage = "^7.4.3"
 mkdocs = "^1.5.3"
 mkdocs-material = "^9.5.12"
+interrogate = "^1.5.0"
 
 [tool.coverage.report]
 exclude_also = ["if TYPE_CHECKING:", "if sys.version_info.*:"]
+
+[tool.interrogate]
+exclude = ["tests"]
+ignore-init-method = true
+ignore-semiprivate = true
+ignore-private = true
+ignore-module = true
+ignore-magic = true
+ignore-nested-functions = true
+verbose = 1
 
 [tool.ruff.lint]
 select = ["ALL"]
