@@ -62,7 +62,7 @@ def _check_bounds_config(config: dict[str, Any]) -> None:
 def _check_types_config(config: dict[str, Any]) -> None:
     _check_unexpected_items(config.keys() - TYPES_KEYS, ("key", "keys"))
 
-    if not isinstance(charset := config["charset"], str):
+    if not isinstance(charset := config.get("charset", "ascii"), str):
         msg = (
             "expected a string for 'charset' "
             f"(one of {', '.join(map(repr, CHARSETS))})"
@@ -75,7 +75,7 @@ def _check_types_config(config: dict[str, Any]) -> None:
         )
         raise OddsproutConfigurationError(msg)
 
-    if (base := config["base"]) not in BASE_TYPES:
+    if (base := config.get("base", "any")) not in BASE_TYPES:
         msg = f"invalid base type {base!r} (valid options: 'any', 'array', 'object')"
         raise OddsproutConfigurationError(msg)
 
