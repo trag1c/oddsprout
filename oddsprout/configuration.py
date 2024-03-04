@@ -33,7 +33,7 @@ def _check_unexpected_items(items: set[str], err_msg_nouns: tuple[str, str]) -> 
     if len(items) == 1:
         msg = f"invalid {singular} {items.pop()!r}"
     else:
-        msg = f"invalid {plural} {', '.join(map(repr, items))}"
+        msg = f"invalid {plural} {', '.join(map(repr, sorted(items)))}"
     raise OddsproutConfigurationError(msg)
 
 
