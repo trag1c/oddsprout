@@ -8,8 +8,8 @@ test:
 
 # runs ruff lint and format checks
 lint:
-    ruff check .
-    ruff format . --check
+    ruff check
+    ruff format --check
 
 # checks test and docstring coverage
 coverage:
@@ -19,5 +19,5 @@ coverage:
 
 # runs the ruff formatter and ruff's isort
 format:
-    ruff format .
-    ruff check . --select=I --fix
+    ruff format
+    ruff check --select=I --fix
