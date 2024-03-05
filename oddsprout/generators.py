@@ -21,7 +21,8 @@ NoneType = type(None)
 
 class JSONGenerator:
     """A JSON value generator."""
-    def __init__(self, config: Config | None = None) -> None:
+
+    def __init__(self, config: Config | None = None) -> None:  # allow two-modal input
         if config is None:
             config = Config()
 

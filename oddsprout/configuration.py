@@ -15,7 +15,7 @@ from oddsprout.constants import (
     TYPES,
     TYPES_KEYS,
 )
-from oddsprout.exceptions import OddsproutConfigurationError
+from oddsprout.exceptions import OddsproutConfigurationError, OddsproutValueError
 from oddsprout.utils import matches_type
 
 if TYPE_CHECKING:
@@ -30,12 +30,18 @@ else:  # pragma: no cover
 @dataclass(frozen=True)
 class Config:
     """An Oddsprout configuration type."""
+
     types: list[str] = field(default_factory=lambda: sorted(TYPES))
     base_size: tuple[int, int] = (0, 100)
     string_size: tuple[int, int] = (0, 50)
     collection_size: tuple[int, int] = (0, 100)
     charset: Literal["ascii", "alpha", "alnum", "digits"] = "ascii"
     base: Literal["any", "array", "object"] = "any"
+
+    def __post_init__(self) -> None:
+        if not self.types:
+            msg = "'types' can't be empty"
+            raise OddsproutValueError(msg)
 
 
 def _check_unexpected_items(items: set[str], err_msg_nouns: tuple[str, str]) -> None:
@@ -110,7 +116,6 @@ def _check_types_config(config: dict[str, Any]) -> None:
         raise OddsproutConfigurationError(msg)
 
 
-# TODO(trag1c): check what type combos cannot be generated
 def _transform_config(config: dict[str, dict[str, Any]]) -> Config:
     transformed = {}
     for key, value in config.get("bounds", {}).items():

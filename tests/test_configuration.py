@@ -7,14 +7,14 @@ import pytest
 from dahlia import dahlia
 
 from oddsprout.configuration import (
-    OddsproutConfigurationError,
+    Config,
     _check_bounds_config,
     _check_types_config,
     _check_unexpected_items,
     _transform_config,
     load_config,
 )
-from oddsprout.generators import Config
+from oddsprout.exceptions import OddsproutConfigurationError, OddsproutValueError
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -165,3 +165,8 @@ def test_load_config_pass(
         charset="ascii",
         types=expected_types,
     )
+
+
+def test_config_empty_types() -> None:
+    with pytest.raises(OddsproutValueError, match="'types' can't be empty"):
+        Config(types=[])
