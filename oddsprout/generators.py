@@ -37,13 +37,16 @@ class JSONGenerator:
             "boolean": rand_bool,
             "null": NoneType,
         }
-        types = config.types
+        types = config.types.copy()
+        if "number" in types:
+            types.remove("number")
+            types.extend(("int", "float"))
+        self._type_pool = tuple(type_map[t] for t in types)
+        self._weights = tuple(0.05 if t in {"object", "array"} else 1 for t in types)
 
         self._config = config
         self._string_size = config.string_size
         self._collection_size = config.collection_size
-        self._type_pool = tuple(type_map[t] for t in types)
-        self._weights = tuple(0.05 if t in {"object", "array"} else 1 for t in types)
         self._charset = CHARSETS[config.charset]
 
     def generate_value(self) -> JSONValue:
