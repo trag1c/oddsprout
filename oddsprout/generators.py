@@ -16,7 +16,7 @@ JSONValue = Union[JSONObject, JSONArray, str, int, float, bool, None]
 NoneType = type(None)
 
 
-@dataclass
+@dataclass(frozen=True)
 class Config:
     types: list[str] = field(default_factory=lambda: sorted(TYPES))
     base_size: tuple[int, int] = (0, 100)
