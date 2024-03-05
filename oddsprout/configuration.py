@@ -21,9 +21,9 @@ from oddsprout.utils import matches_type
 if TYPE_CHECKING:
     from os import PathLike
 
-if sys.version_info < (3, 11):
+if sys.version_info < (3, 11):  # pragma: no cover
     import tomli as toml
-else:
+else:  # pragma: no cover
     import tomllib as toml
 
 
