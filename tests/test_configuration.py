@@ -133,17 +133,29 @@ def test_transform_config(config: dict[str, Any], transformed: Config) -> None:
     assert _transform_config(config) == transformed
 
 
-def test_load_config_pass(tmp_path: Path) -> None:
+@pytest.mark.parametrize(
+    ("input_types", "expected_types"),
+    [
+        (
+            'exclude = ["string", "array", "null"]',
+            ["boolean", "float", "int", "number", "object"],
+        ),
+        ('include = ["boolean", "int", "float"]', ["boolean", "float", "int"]),
+    ],
+)
+def test_load_config_pass(
+    tmp_path: Path, input_types: str, expected_types: list[str]
+) -> None:
     path = tmp_path / "config.toml"
     path.write_text(
-        """
+        f"""
         [bounds]
         base = [1, 2]
         string-max = 10
 
         [types]
         charset = "ascii"
-        exclude = ["string", "array", "null"]
+        {input_types}
         """
     )
 
@@ -151,5 +163,5 @@ def test_load_config_pass(tmp_path: Path) -> None:
         base_size=(1, 2),
         string_size=(0, 10),
         charset="ascii",
-        types=["boolean", "float", "int", "number", "object"],
+        types=expected_types,
     )
