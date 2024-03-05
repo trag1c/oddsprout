@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, List, Tuple
 
 from dahlia import dprint
 
@@ -16,6 +16,7 @@ from oddsprout.constants import (
 )
 from oddsprout.exceptions import OddsproutConfigurationError
 from oddsprout.generators import Config
+from oddsprout.utils import matches_type
 
 if TYPE_CHECKING:
     from os import PathLike
@@ -51,10 +52,7 @@ def _check_bounds_config(config: dict[str, Any]) -> None:
             msg = f"can't use {key!r} and '{key}-max' at once"
             raise OddsproutConfigurationError(msg)
         if not (
-            isinstance(value, list)
-            and len(value) == 2
-            and isinstance(value[0], int)
-            and isinstance(value[1], int)
+            isinstance(value, list) and matches_type(tuple(value), Tuple[int, int])
         ):
             msg = f"expected a [min, max] array for {key!r}"
             raise OddsproutConfigurationError(msg)
@@ -84,9 +82,7 @@ def _check_types_config(config: dict[str, Any]) -> None:
     for key in ("exclude", "include"):
         if (value := config.get(key)) is None:
             continue
-        if not (
-            isinstance(value, list) and all(isinstance(item, str) for item in value)
-        ):  # TODO(trag1c): make a util for this^^^?
+        if not matches_type(value, List[str]):
             msg = f"expected an array of type names for {key!r}"
             raise OddsproutConfigurationError(msg)
         for item in set(value):
