@@ -24,6 +24,8 @@ from oddsprout.utils import matches_type
         ({"a": 1, "b": 2, "c": 3}, Dict[str, int], True),
         ({"a": 1, "b": "2", "c": 3}, Dict[str, int], False),
         ({"a": 1, "b": 2, "c": 3}, Dict[str, str], False),
+        ([1], List, True),
+        ({1: 2}, Dict, True),
     ],
 )
 def test_matches_type(value: object, type_: type[Any], expected: bool) -> None:
