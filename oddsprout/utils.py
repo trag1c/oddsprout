@@ -22,7 +22,8 @@ def matches_type(value: object, type_: type[Any]) -> bool:
         return isinstance(value, type_)
     if not isinstance(value, origin):
         return False
-    args = get_args(type_)
+    if not (args := get_args(type_)):
+        return True
     if origin is dict:
         key_type, value_type = args
         value = cast("dict[Any, Any]", value)
