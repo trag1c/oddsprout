@@ -99,7 +99,7 @@ def _check_types_config(config: dict[str, Any]) -> None:
         raise OddsproutConfigurationError(msg)
 
 
-def _transform_config(config: dict[str, Any]) -> Config:
+def _transform_config(config: dict[str, dict[str, Any]]) -> Config:
     transformed = {}
     for key, value in config.get("bounds", {}).items():
         new_key = (key[:-4] if key.endswith("-max") else key) + "_size"
