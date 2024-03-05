@@ -77,13 +77,13 @@ class JSONGenerator:
     def _generate_object(self, size: int | None = None) -> JSONObject:
         return {
             self._generate_string(): self._generate_value()
-            for _ in range(size or rand_int(*self._collection_size))
+            for _ in range(rand_int(*self._collection_size) if size is None else size)
         }
 
     def _generate_array(self, size: int | None = None) -> JSONArray:
         return [
             self._generate_value()
-            for _ in range(size or rand_int(*self._collection_size))
+            for _ in range(rand_int(*self._collection_size) if size is None else size)
         ]
 
 
