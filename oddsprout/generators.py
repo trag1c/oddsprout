@@ -20,6 +20,7 @@ NoneType = type(None)
 
 
 class JSONGenerator:
+    """A JSON value generator."""
     def __init__(self, config: Config | None = None) -> None:
         if config is None:
             config = Config()
@@ -56,6 +57,7 @@ class JSONGenerator:
         return cls(load_config(path))
 
     def generate_value(self) -> JSONValue:
+        """Generate a random JSON value."""
         base = self._config.base
         size = rand_int(*self._config.base_size)
         if base == "any":

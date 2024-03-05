@@ -29,6 +29,7 @@ else:  # pragma: no cover
 
 @dataclass(frozen=True)
 class Config:
+    """An Oddsprout configuration type."""
     types: list[str] = field(default_factory=lambda: sorted(TYPES))
     base_size: tuple[int, int] = (0, 100)
     string_size: tuple[int, int] = (0, 50)
@@ -109,6 +110,7 @@ def _check_types_config(config: dict[str, Any]) -> None:
         raise OddsproutConfigurationError(msg)
 
 
+# TODO(trag1c): check what type combos cannot be generated
 def _transform_config(config: dict[str, dict[str, Any]]) -> Config:
     transformed = {}
     for key, value in config.get("bounds", {}).items():
@@ -125,6 +127,7 @@ def _transform_config(config: dict[str, dict[str, Any]]) -> Config:
 
 
 def load_config(path: PathLike[str] | str) -> Config:
+    """Load and validate the configuration file."""
     try:
         config = toml.loads(Path(path).read_text())
     except toml.TOMLDecodeError as e:
