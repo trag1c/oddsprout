@@ -27,7 +27,10 @@ class Config:
 
 
 class JSONGenerator:
-    def __init__(self, config: Config) -> None:
+    def __init__(self, config: Config | None = None) -> None:
+        if config is None:
+            config = Config()
+
         type_map = {
             "object": self._generate_object,
             "array": self._generate_array,
