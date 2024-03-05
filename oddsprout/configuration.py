@@ -131,9 +131,10 @@ def load_config(path: PathLike[str] | str) -> Config:
     try:
         config = toml.loads(Path(path).read_text())
     except toml.TOMLDecodeError as e:
-        raise OddsproutConfigurationError(str(e)) from None
-        # TODO(trag1c): reconsider the above line (maybe add a prefix saying
-        # it's a TOML error or maybe just use the original exception)
+        # NOTE: Redirecting this to an oddsprout exception so that the user
+        # does not have to deal with picking the correct library to import
+        msg = f"TOMLDecodeError: {e}"
+        raise OddsproutConfigurationError(msg) from None
 
     found_categories = set(config)
     _check_unexpected_items(found_categories - CATEGORIES, ("category", "categories"))
