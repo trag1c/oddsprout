@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Dict, List, Union
 
 from ixia import choice, choices, rand_bool, rand_int, uniform
 
-from oddsprout.configuration import Config
+from oddsprout.configuration import Config, load_config
 from oddsprout.constants import CHARSETS
 
 if TYPE_CHECKING:
@@ -49,6 +49,11 @@ class JSONGenerator:
     def config(self) -> Config:
         """The config used by the generator."""
         return self._config
+
+    @classmethod
+    def from_config(cls, path: PathLike[str] | str) -> JSONGenerator:
+        """Create a JSONGenerator instance from a configuration file."""
+        return cls(load_config(path))
 
     def generate_value(self) -> JSONValue:
         base = self._config.base
