@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, List, Literal, Union
 
 from ixia import choice, choices, rand_bool, rand_int, uniform
 
-from oddsprout.constants import CHARSETS
+from oddsprout.constants import CHARSETS, TYPES
 
 sys.setrecursionlimit(5_000)
 
@@ -18,7 +18,7 @@ NoneType = type(None)
 
 @dataclass
 class Config:
-    types: list[str]
+    types: list[str] = field(default_factory=lambda: sorted(TYPES))
     base_size: tuple[int, int] = (0, 100)
     string_size: tuple[int, int] = (0, 50)
     collection_size: tuple[int, int] = (0, 100)
