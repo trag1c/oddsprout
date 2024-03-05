@@ -45,6 +45,11 @@ class JSONGenerator:
         self._collection_size = config.collection_size
         self._charset = CHARSETS[config.charset]
 
+    @property
+    def config(self) -> Config:
+        """The config used by the generator."""
+        return self._config
+
     def generate_value(self) -> JSONValue:
         base = self._config.base
         size = rand_int(*self._config.base_size)
