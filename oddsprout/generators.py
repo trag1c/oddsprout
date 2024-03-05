@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import sys
-from dataclasses import dataclass, field
-from typing import Dict, List, Literal, Union
+from typing import TYPE_CHECKING, Dict, List, Union
 
 from ixia import choice, choices, rand_bool, rand_int, uniform
 
-from oddsprout.constants import CHARSETS, TYPES
+from oddsprout.configuration import Config
+from oddsprout.constants import CHARSETS
+
+if TYPE_CHECKING:
+    from os import PathLike
 
 sys.setrecursionlimit(5_000)
 
@@ -14,16 +17,6 @@ JSONObject = Dict[str, "JSONValue"]
 JSONArray = List["JSONValue"]
 JSONValue = Union[JSONObject, JSONArray, str, int, float, bool, None]
 NoneType = type(None)
-
-
-@dataclass(frozen=True)
-class Config:
-    types: list[str] = field(default_factory=lambda: sorted(TYPES))
-    base_size: tuple[int, int] = (0, 100)
-    string_size: tuple[int, int] = (0, 50)
-    collection_size: tuple[int, int] = (0, 100)
-    charset: Literal["ascii", "alpha", "alnum", "digits"] = "ascii"
-    base: Literal["any", "array", "object"] = "any"
 
 
 class JSONGenerator:

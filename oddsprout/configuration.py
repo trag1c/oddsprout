@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import sys
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, List, Tuple
+from typing import TYPE_CHECKING, Any, List, Literal, Tuple
 
 from dahlia import dprint
 
@@ -15,7 +16,6 @@ from oddsprout.constants import (
     TYPES_KEYS,
 )
 from oddsprout.exceptions import OddsproutConfigurationError
-from oddsprout.generators import Config
 from oddsprout.utils import matches_type
 
 if TYPE_CHECKING:
@@ -25,6 +25,16 @@ if sys.version_info < (3, 11):  # pragma: no cover
     import tomli as toml
 else:  # pragma: no cover
     import tomllib as toml
+
+
+@dataclass(frozen=True)
+class Config:
+    types: list[str] = field(default_factory=lambda: sorted(TYPES))
+    base_size: tuple[int, int] = (0, 100)
+    string_size: tuple[int, int] = (0, 50)
+    collection_size: tuple[int, int] = (0, 100)
+    charset: Literal["ascii", "alpha", "alnum", "digits"] = "ascii"
+    base: Literal["any", "array", "object"] = "any"
 
 
 def _check_unexpected_items(items: set[str], err_msg_nouns: tuple[str, str]) -> None:
