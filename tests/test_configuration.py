@@ -14,11 +14,10 @@ from oddsprout.configuration import (
     _transform_config,
     load_config,
 )
+from oddsprout.generators import Config
 
 if TYPE_CHECKING:
     from pathlib import Path
-
-    from oddsprout.generators import Config
 
 
 def test_invalid_syntax_toml(tmp_path: Path) -> None:
@@ -93,7 +92,7 @@ def test_check_bounds_config_pass() -> None:
         ({"exclude": ["invalid"]}, "invalid type 'invalid' in 'exclude'"),
         ({"include": 1}, "expected an array of type names for 'include'"),
         ({"include": ["invalid"]}, "invalid type 'invalid' in 'include'"),
-        ({"include": [], "exclude": []}, "can't use 'include' and 'exclude' at once")
+        ({"include": [], "exclude": []}, "can't use 'include' and 'exclude' at once"),
     ],
 )
 def test_check_types_config_fail(config: dict[str, Any], err_msg: str) -> None:
@@ -122,11 +121,11 @@ def test_check_types_config_pass() -> None:
     [
         (
             {"bounds": {"base": [1, 2]}},
-            {"base_size": (1, 2)},
+            Config(base_size=(1, 2)),
         ),
         (
             {"bounds": {"base": [1, 2], "string-max": 10}},
-            {"base_size": (1, 2), "string_size": (0, 10)},
+            Config(base_size=(1, 2), string_size=(0, 10)),
         ),
     ],
 )
@@ -148,9 +147,9 @@ def test_load_config_pass(tmp_path: Path) -> None:
         """
     )
 
-    assert load_config(path) == {
-        "base_size": (1, 2),
-        "string_size": (0, 10),
-        "charset": "ascii",
-        "types": ["boolean", "float", "int", "number", "object"],
-    }
+    assert load_config(path) == Config(
+        base_size=(1, 2),
+        string_size=(0, 10),
+        charset="ascii",
+        types=["boolean", "float", "int", "number", "object"],
+    )

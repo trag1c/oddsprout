@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any
 
 from dahlia import dprint
 
@@ -115,7 +115,7 @@ def _transform_config(config: dict[str, Any]) -> Config:
         # assuming "include" is not defined based on prior checks
         transformed["types"] = sorted(set(TYPES) - set(excluded_types))
     transformed.update(types_config)
-    return cast(Config, transformed)
+    return Config(**transformed)
 
 
 def load_config(path: PathLike[str] | str) -> Config:
