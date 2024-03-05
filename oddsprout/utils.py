@@ -24,8 +24,6 @@ def matches_type(value: object, type_: type[Any]) -> bool:
         return False
     args = get_args(type_)
     if origin is dict:
-        if len(args) != 2:
-            return False
         key_type, value_type = args
         value = cast("dict[Any, Any]", value)
         return all(
