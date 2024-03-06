@@ -12,8 +12,9 @@ from oddsprout.constants import (
     BOUNDS_KEYS,
     CATEGORIES,
     CHARSETS,
-    TYPES,
+    DEFAULT_TYPES,
     TYPES_KEYS,
+    VALID_TYPES,
 )
 from oddsprout.exceptions import OddsproutConfigurationError, OddsproutValueError
 from oddsprout.utils import matches_type
@@ -31,7 +32,7 @@ else:  # pragma: no cover
 class Config:
     """An Oddsprout configuration type."""
 
-    types: list[str] = field(default_factory=lambda: sorted(TYPES))
+    types: list[str] = field(default_factory=lambda: sorted(DEFAULT_TYPES))
     base_size: tuple[int, int] = (0, 100)
     string_size: tuple[int, int] = (0, 50)
     collection_size: tuple[int, int] = (0, 100)
@@ -103,7 +104,7 @@ def _check_types_config(config: dict[str, Any]) -> None:
             msg = f"expected an array of type names for {key!r}"
             raise OddsproutConfigurationError(msg)
         for item in set(value):
-            if item not in TYPES:
+            if item not in VALID_TYPES:
                 msg = f"invalid type {item!r} in {key!r}"
                 raise OddsproutConfigurationError(msg)
             if value.count(item) > 1:
@@ -126,7 +127,7 @@ def _transform_config(config: dict[str, dict[str, Any]]) -> Config:
         transformed["types"] = sorted(included_types)
     if excluded_types := types_config.pop("exclude", []):
         # assuming "include" is not defined based on prior checks
-        transformed["types"] = sorted(set(TYPES) - set(excluded_types))
+        transformed["types"] = sorted(set(VALID_TYPES) - set(excluded_types))
     transformed.update(types_config)
     return Config(**transformed)
 

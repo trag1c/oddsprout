@@ -11,7 +11,8 @@ CHARSETS = {
     "alnum": string.ascii_letters + string.digits,
     "digits": string.digits,
 }
-TYPES = frozenset(
+VALID_TYPES = frozenset(
     ("int", "float", "number", "string", "boolean", "null", "array", "object")
 )
+DEFAULT_TYPES = ["int", "float", "string", "boolean", "null", "array", "object"]
 TYPES_KEYS = frozenset(("charset", "base", "exclude", "include"))
