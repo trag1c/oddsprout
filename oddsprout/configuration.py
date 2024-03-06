@@ -43,6 +43,16 @@ class Config:
         if not self.types:
             msg = "'types' can't be empty"
             raise OddsproutValueError(msg)
+        if "number" not in self.types:
+            return
+        for number_type in ("int", "float"):
+            if number_type in self.types:
+                self.types.remove(number_type)
+                dprint(
+                    f"&eWARNING:&r discarding unnecessary {number_type!r} in 'types' "
+                    "('number' is already present)",
+                    file=sys.stderr,
+                )
 
 
 def _check_unexpected_items(items: set[str], err_msg_nouns: tuple[str, str]) -> None:
