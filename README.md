@@ -7,11 +7,18 @@ solutions I found online involved generating data based on templates.
 See the [documentation] for usage.
 
 ## Installation
-From PyPI:
+If you only intend to use it as a CLI tool:
+```sh
+pipx install oddsprout
+```
+
+---
+
+Otherwise, install the library from PyPI:
 ```sh
 pip install oddsprout
 ```
-From source:
+Or from source:
 ```sh
 pip install git+https://github.com/trag1c/oddsprout.git
 ```
