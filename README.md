@@ -23,6 +23,32 @@ Or from source:
 pip install git+https://github.com/trag1c/oddsprout.git
 ```
 
+## Contributing
+
+Contributions are welcome!
+
+Please open an issue before submitting a pull request (unless it's a minor change like
+fixing a typo).
+
+To get started:
+1. Clone your fork of the project.
+2. Set up the project with [just] (amake sure you have [poetry] installed):
+```sh
+just install
+```
+
+> [!Note]
+> If you don't want to install `just`, simply look up the recipes
+> in the project's `justfile`.
+
+3. After you're done, use the following `just` recipes to check your changes:
+```sh
+just test      # runs pytest and mypy
+just lint      # runs the ruff linter and formatter in check mode
+just format    # runs the ruff formatter and isort
+just coverage  # checks UT and docstring coverage
+```
+
 ## License
 `oddsprout` is licensed under the [MIT License].  
 © [trag1c], 2024
