@@ -1,5 +1,5 @@
 _default:
-    @just --list    
+    @just --list
 
 # runs pytest and strict mypy
 test:
