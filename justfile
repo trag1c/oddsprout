@@ -1,6 +1,11 @@
 _default:
     @just --list
 
+# installs the project and activates the venv
+install:
+    poetry install
+    poetry shell
+
 # runs pytest and strict mypy
 test:
     pytest
