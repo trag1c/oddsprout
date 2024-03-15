@@ -84,7 +84,6 @@ def _check_bounds_config(config: dict[str, Any]) -> None:
         ):
             msg = f"expected a [min, max] array for {key!r}"
             raise OddsproutConfigurationError(msg)
-    # TODO(trag1c): check what collection sizes could be too large and drop a warning
 
 
 def _check_types_config(config: dict[str, Any]) -> None:
