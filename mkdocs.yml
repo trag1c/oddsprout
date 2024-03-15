@@ -26,5 +26,6 @@ theme:
         name: Disable dark mode
 
 markdown_extensions:
+  - admonition
   - pymdownx.highlight
   - pymdownx.superfences
