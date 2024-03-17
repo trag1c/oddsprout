@@ -22,7 +22,7 @@ def _dexit(message: object) -> NoReturn:
     sys.exit(dahlia(f"&4ERROR:&r {message}"))
 
 
-if __name__ == "__main__":
+def main() -> None:
     config_path = _parse_argv()
     if not config_path.exists():
         _dexit(f"{config_path} does not exist")
@@ -36,3 +36,7 @@ if __name__ == "__main__":
         print(json.dumps(json_gen.generate_value(), indent=2))
     except RecursionError:
         _dexit("Failed to generate a JSON with the given collection size.")
+
+
+if __name__ == "__main__":
+    main()
