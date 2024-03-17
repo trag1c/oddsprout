@@ -24,7 +24,7 @@ def _dexit(message: object) -> NoReturn:
 
 def main() -> None:
     config_path = _parse_argv()
-    if not config_path.exists():
+    if not (config_path is None or config_path.exists()):
         _dexit(f"{config_path} does not exist")
 
     try:

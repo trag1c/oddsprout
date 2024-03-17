@@ -141,8 +141,10 @@ def _transform_config(config: dict[str, dict[str, Any]]) -> Config:
     return Config(**transformed)
 
 
-def load_config(path: PathLike[str] | str) -> Config:
+def load_config(path: PathLike[str] | str | None) -> Config:
     """Load and validate the configuration file."""
+    if path is None:
+        return Config()
     try:
         config = toml.loads(Path(path).read_text())
     except toml.TOMLDecodeError as e:
