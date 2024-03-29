@@ -22,7 +22,7 @@ NoneType = type(None)
 class JSONGenerator:
     """A JSON value generator."""
 
-    def __init__(self, config: Config | None = None) -> None:  # allow two-modal input
+    def __init__(self, config: Config | None = None) -> None:
         if config is None:
             config = Config()
 
@@ -53,7 +53,7 @@ class JSONGenerator:
         return self._config
 
     @classmethod
-    def from_config(cls, path: PathLike[str] | str) -> JSONGenerator:
+    def from_config_file(cls, path: PathLike[str] | str) -> JSONGenerator:
         """Create a JSONGenerator instance from a configuration file."""
         return cls(load_config(path))
 

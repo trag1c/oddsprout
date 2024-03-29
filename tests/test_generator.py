@@ -24,5 +24,5 @@ def test_json_generator_from_file(tmp_path: Path) -> None:
         base-max = 17
         """
     )
-    gen = JSONGenerator.from_config(path)
+    gen = JSONGenerator.from_config_file(path)
     assert gen.config.base_size == (0, 17)
