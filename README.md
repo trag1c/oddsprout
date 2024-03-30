@@ -1,8 +1,9 @@
 # oddsprout
 
-Oddsprout is a configurable CLI tool and a Python library for generating random JSONs
-with no schemas involved. I made it because I needed to generate some JSONs but all
-solutions I found online involved generating data based on templates.
+Oddsprout is a configurable CLI tool and a Python library for generating random
+JSONs with no schemas involved. I developed this tool out of necessity to test a
+JSON parser but all solutions I found online involved generating data based on
+templates.
 
 See the [documentation] for usage.
 
@@ -27,12 +28,12 @@ pip install git+https://github.com/trag1c/oddsprout.git
 
 Contributions are welcome!
 
-Please open an issue before submitting a pull request (unless it's a minor change like
-fixing a typo).
+Please open an issue before submitting a pull request (unless it's a minor
+change like fixing a typo).
 
 To get started:
 1. Clone your fork of the project.
-2. Set up the project with [just] (amake sure you have [poetry] installed):
+2. Set up the project with [just] (make sure you have [poetry] installed):
 ```sh
 just install
 ```
@@ -56,3 +57,5 @@ just coverage  # checks UT and docstring coverage
 [MIT License]: https://opensource.org/license/mit/
 [trag1c]: https://github.com/trag1c/
 [documentation]: https://trag1c.github.io/oddsprout
+[poetry]: https://python-poetry.org/
+[just]: https://github.com/casey/just/
