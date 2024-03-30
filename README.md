@@ -40,7 +40,7 @@ just install
 
 > [!Note]
 > If you don't want to install `just`, simply look up the recipes
-> in the project's `justfile`.
+> in the project's [`justfile`][justfile].
 
 3. After you're done, use the following `just` recipes to check your changes:
 ```sh
@@ -59,3 +59,4 @@ just coverage  # checks UT and docstring coverage
 [documentation]: https://trag1c.github.io/oddsprout
 [poetry]: https://python-poetry.org/
 [just]: https://github.com/casey/just/
+[justfile]: https://github.com/trag1c/oddsprout/blob/main/justfile
