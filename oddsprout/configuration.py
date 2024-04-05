@@ -27,14 +27,17 @@ if sys.version_info < (3, 11):  # pragma: no cover
 else:  # pragma: no cover
     import tomllib as toml
 
+Charset = Literal["ascii", "alpha", "alnum", "digits"]
+BaseKind = Literal["any", "array", "object"]
+
 
 class ConfigData(TypedDict):
     types: tuple[str, ...]
     base_size: tuple[int, int]
     string_size: tuple[int, int]
     collection_size: tuple[int, int]
-    charset: Literal["ascii", "alpha", "alnum", "digits"]
-    base: Literal["any", "array", "object"]
+    charset: Charset
+    base: BaseKind
 
 
 @dataclass(frozen=True)
@@ -45,8 +48,8 @@ class Config:
     base_size: tuple[int, int] = (0, 100)
     string_size: tuple[int, int] = (0, 50)
     collection_size: tuple[int, int] = (0, 100)
-    charset: Literal["ascii", "alpha", "alnum", "digits"] = "ascii"
-    base: Literal["any", "array", "object"] = "any"
+    charset: Charset = "ascii"
+    base: BaseKind = "any"
 
     def __post_init__(self) -> None:
         types = set(self.types)
