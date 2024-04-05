@@ -14,5 +14,5 @@ CHARSETS = {
 VALID_TYPES = frozenset(
     ("int", "float", "number", "string", "boolean", "null", "array", "object")
 )
-DEFAULT_TYPES = ["int", "float", "string", "boolean", "null", "array", "object"]
+DEFAULT_TYPES = ("int", "float", "string", "boolean", "null", "array", "object")
 TYPES_KEYS = frozenset(("charset", "base", "exclude", "include"))

@@ -7,7 +7,7 @@ if TYPE_CHECKING:
     from collections.abc import Collection
 
 
-def matches_type(value: object, type_: type[Any]) -> bool:
+def matches_type(value: object, type_: Any) -> bool:
     """
     Check if a value matches a given type.
     Made for recursive type checking.

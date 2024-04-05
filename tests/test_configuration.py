@@ -138,13 +138,13 @@ def test_transform_config(config: dict[str, Any], transformed: Config) -> None:
     [
         (
             'exclude = ["string", "array", "null"]',
-            ["boolean", "float", "int", "number", "object"],
+            ("boolean", "float", "int", "number", "object"),
         ),
-        ('include = ["boolean", "int", "float"]', ["boolean", "float", "int"]),
+        ('include = ["boolean", "int", "float"]', ("boolean", "float", "int")),
     ],
 )
 def test_load_config_pass(
-    tmp_path: Path, input_types: str, expected_types: list[str]
+    tmp_path: Path, input_types: str, expected_types: tuple[str, ...]
 ) -> None:
     path = tmp_path / "config.toml"
     path.write_text(
@@ -169,4 +169,4 @@ def test_load_config_pass(
 
 def test_config_empty_types() -> None:
     with pytest.raises(OddsproutValueError, match="'types' can't be empty"):
-        Config(types=[])
+        Config(types=())

@@ -2,7 +2,7 @@ import json
 import sys
 from argparse import ArgumentParser
 from pathlib import Path
-from typing import NoReturn
+from typing import NoReturn, cast
 
 from dahlia import dahlia
 
@@ -15,7 +15,7 @@ def _parse_argv() -> Path:
     parser = ArgumentParser()
     parser.add_argument("--config", type=Path, help="path to configuration file")
     args = parser.parse_args()
-    return args.config
+    return cast(Path, args.config)
 
 
 def _dexit(message: object) -> NoReturn:

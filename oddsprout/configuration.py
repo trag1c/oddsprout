@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import sys
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, List, Literal, Tuple
+from typing import TYPE_CHECKING, Any, List, Literal, Tuple, TypedDict, cast
 
 from dahlia import dprint
 
@@ -28,11 +28,20 @@ else:  # pragma: no cover
     import tomllib as toml
 
 
+class ConfigData(TypedDict):
+    types: tuple[str, ...]
+    base_size: tuple[int, int]
+    string_size: tuple[int, int]
+    collection_size: tuple[int, int]
+    charset: Literal["ascii", "alpha", "alnum", "digits"]
+    base: Literal["any", "array", "object"]
+
+
 @dataclass(frozen=True)
 class Config:
     """An Oddsprout configuration type."""
 
-    types: list[str] = field(default_factory=lambda: sorted(DEFAULT_TYPES))
+    types: tuple[str, ...] = DEFAULT_TYPES
     base_size: tuple[int, int] = (0, 100)
     string_size: tuple[int, int] = (0, 50)
     collection_size: tuple[int, int] = (0, 100)
@@ -40,19 +49,21 @@ class Config:
     base: Literal["any", "array", "object"] = "any"
 
     def __post_init__(self) -> None:
-        if not self.types:
+        types = set(self.types)
+        if not types:
             msg = "'types' can't be empty"
             raise OddsproutValueError(msg)
-        if "number" not in self.types:
+        if "number" not in types:
             return
         for number_type in ("int", "float"):
-            if number_type in self.types:
-                self.types.remove(number_type)
+            if number_type in types:
+                types.remove(number_type)
                 dprint(
                     f"&eWARNING:&r discarding unnecessary {number_type!r} in 'types' "
                     "('number' is already present)",
                     file=sys.stderr,
                 )
+        object.__setattr__(self, "types", tuple(types))
 
 
 def _check_unexpected_items(items: set[str], err_msg_nouns: tuple[str, str]) -> None:
@@ -133,12 +144,12 @@ def _transform_config(config: dict[str, dict[str, Any]]) -> Config:
         transformed[new_key] = (0, value) if key.endswith("-max") else tuple(value)
     types_config = config.get("types", {})
     if included_types := types_config.pop("include", []):
-        transformed["types"] = sorted(included_types)
+        transformed["types"] = tuple(sorted(included_types))
     if excluded_types := types_config.pop("exclude", []):
         # assuming "include" is not defined based on prior checks
-        transformed["types"] = sorted(set(VALID_TYPES) - set(excluded_types))
+        transformed["types"] = tuple(sorted(set(VALID_TYPES) - set(excluded_types)))
     transformed.update(types_config)
-    return Config(**transformed)
+    return Config(**cast(ConfigData, transformed))
 
 
 def load_config(path: PathLike[str] | str | None) -> Config:

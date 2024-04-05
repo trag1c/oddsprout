@@ -3,7 +3,8 @@ from typing import Literal
 
 import pytest
 
-from oddsprout.generators import Config, JSONGenerator
+from oddsprout.configuration import Config
+from oddsprout.generators import JSONGenerator
 
 
 @pytest.mark.parametrize("base_type", ["array", "object", "any"])

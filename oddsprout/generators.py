@@ -9,6 +9,7 @@ from oddsprout.configuration import Config, load_config
 from oddsprout.constants import CHARSETS
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
     from os import PathLike
 
 sys.setrecursionlimit(5_000)
@@ -26,16 +27,16 @@ class JSONGenerator:
         if config is None:
             config = Config()
 
-        type_map = {
+        type_map: dict[str, Callable[[], JSONValue]] = {
             "object": self._generate_object,
             "array": self._generate_array,
             "string": self._generate_string,
             "int": _generate_int,
             "float": _generate_float,
             "boolean": rand_bool,
-            "null": NoneType,
+            "null": NoneType,  # type: ignore[dict-item]
         }
-        types = config.types.copy()
+        types = list(config.types)
         if "number" in types:
             types.remove("number")
             types.extend(("int", "float"))
