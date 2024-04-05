@@ -170,3 +170,15 @@ def test_load_config_pass(
 def test_config_empty_types() -> None:
     with pytest.raises(OddsproutValueError, match="'types' can't be empty"):
         Config(types=())
+
+
+def test_config_from_file(tmp_path: Path) -> None:
+    path = tmp_path / "oddsprout.toml"
+    path.write_text(
+        """
+        [bounds]
+        base-max = 17
+        """
+    )
+    gen = Config.from_file(path)
+    assert gen.base_size == (0, 17)

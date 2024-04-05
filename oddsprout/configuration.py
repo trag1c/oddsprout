@@ -68,6 +68,11 @@ class Config:
                 )
         object.__setattr__(self, "types", tuple(types))
 
+    @classmethod
+    def from_file(cls, path: PathLike[str] | str) -> Config:
+        """Create a Config from a TOML file."""
+        return load_config(path)
+
 
 def _check_unexpected_items(items: set[str], err_msg_nouns: tuple[str, str]) -> None:
     if not items:
