@@ -1,4 +1,4 @@
-site_name: Oddsprout Documentation
+site_name: Oddsprout
 repo_url: https://github.com/trag1c/oddsprout
 repo_name: trag1c/oddsprout
 copyright: Copyright &copy; 2024 trag1c
@@ -6,6 +6,7 @@ nav:
   - Home: index.md
   - Usage: usage.md
   - Configuration: configuration.md
+  - API Reference: api_reference.md
 theme:
   name: material
   palette:
@@ -27,5 +28,6 @@ theme:
 
 markdown_extensions:
   - admonition
-  - pymdownx.highlight
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
