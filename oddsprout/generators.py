@@ -48,6 +48,9 @@ class JSONGenerator:
         self._collection_size = config.collection_size
         self._charset = CHARSETS[config.charset]
 
+    def __repr__(self) -> str:
+        return f"{type(self).__name__}(config={self._config})"
+
     @property
     def config(self) -> Config:
         """The config used by the generator."""
