@@ -85,6 +85,11 @@ the maximum value, making e.g. `string-max = 30` equivalent to
     collection-max = 10
     ```
 
+!!! warning
+    Oddsprout heavily relies on recursion to generate JSONs, which means it may
+    fail for more extreme `bounds` configurations. For the Python API, you can
+    attempt to counter this by [increasing the recursion limit][sys-recursion].
+
 ### Types
 The data types to include during generation. Defaults to using all types.
 In the Python API, they're specified via the `types` parameter, which is a
@@ -124,3 +129,5 @@ setting, both of which are arrays of type names. Duplicate types are ignored.
     The above example would behave the same way if
     `Config(..., types=("int", "float", "boolean", "array"))` or
     `include = ["int", "float", "boolean", "array"]` were supplied.
+
+[sys-recursion]: https://docs.python.org/3/library/sys.html#sys.setrecursionlimit
