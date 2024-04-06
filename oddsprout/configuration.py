@@ -5,8 +5,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, List, Literal, Tuple, TypedDict, cast
 
-from dahlia import dprint
-
 from oddsprout.constants import (
     BASE_TYPES,
     BOUNDS_KEYS,
@@ -59,13 +57,7 @@ class Config:
         if "number" not in types:
             return
         for number_type in ("int", "float"):
-            if number_type in types:
-                types.remove(number_type)
-                dprint(
-                    f"&eWARNING:&r discarding unnecessary {number_type!r} in 'types' "
-                    "('number' is already present)",
-                    file=sys.stderr,
-                )
+            types.discard(number_type)
         object.__setattr__(self, "types", tuple(types))
 
     @classmethod
@@ -135,10 +127,6 @@ def _check_types_config(config: dict[str, Any]) -> None:
             if item not in VALID_TYPES:
                 msg = f"invalid type {item!r} in {key!r}"
                 raise OddsproutConfigurationError(msg)
-            if value.count(item) > 1:
-                dprint(
-                    f"&eWARNING:&r duplicated type {item!r} in {key!r}", file=sys.stderr
-                )
 
     if set(config) >= {"include", "exclude"}:
         msg = "can't use 'include' and 'exclude' at once"
