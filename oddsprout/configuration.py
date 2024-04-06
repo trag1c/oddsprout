@@ -50,9 +50,26 @@ class Config:
     base: BaseKind = "any"
 
     def __post_init__(self) -> None:
-        types = set(self.types)
-        if not types:
+        for f in ("base", "string", "collection"):
+            field = f"{f}_size"
+            if not matches_type(value := getattr(self, field), Tuple[int, int]):
+                msg = f"expected a (min, max) tuple for {field!r}"
+                raise OddsproutValueError(msg)
+            min_, max_ = value
+            if max_ < min_:
+                msg = f"max can't be less than min for {field!r}"
+                raise OddsproutValueError(msg)
+        if self.base not in BASE_TYPES:
+            msg = f"invalid base type {self.base!r}"
+            raise OddsproutValueError(msg)
+        if self.charset not in CHARSETS:
+            msg = f"invalid charset {self.charset!r}"
+            raise OddsproutValueError(msg)
+        if not (types := set(self.types)):
             msg = "'types' can't be empty"
+            raise OddsproutValueError(msg)
+        if types - VALID_TYPES:
+            msg = f"invalid types: {', '.join(map(repr, types - VALID_TYPES))}"
             raise OddsproutValueError(msg)
         if "number" not in types:
             return
