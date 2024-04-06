@@ -39,7 +39,7 @@ verbose = 1
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["COM", "D", "FIX", "ANN1", "ISC001", "T201", "TD003", "PLR2004"]
+ignore = ["COM", "D", "FIX", "ANN1", "ANN401", "ISC001", "T201", "TD003", "PLR2004"]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 15
