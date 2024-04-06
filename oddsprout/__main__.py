@@ -29,13 +29,9 @@ def main() -> None:
 
     try:
         json_gen = JSONGenerator(load_config(config_path))
+        print(json.dumps(json_gen.generate_value(), indent=2))
     except OddsproutError as e:
         _dexit(e)
-
-    try:
-        print(json.dumps(json_gen.generate_value(), indent=2))
-    except RecursionError:
-        _dexit("Failed to generate a JSON with the given collection size.")
 
 
 if __name__ == "__main__":

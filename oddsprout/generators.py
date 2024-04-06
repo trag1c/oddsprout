@@ -6,6 +6,7 @@ from ixia import choice, choices, rand_bool, rand_int, uniform
 
 from oddsprout.configuration import Config
 from oddsprout.constants import CHARSETS
+from oddsprout.exceptions import OddsproutRecursionError
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -58,11 +59,15 @@ class JSONGenerator:
         size = rand_int(*self._config.base_size)
         if base == "any":
             base = choice(("object", "array"))
-        return (
-            self._generate_object(size)
-            if base == "object"
-            else self._generate_array(size)
-        )
+        try:
+            return (
+                self._generate_object(size)
+                if base == "object"
+                else self._generate_array(size)
+            )
+        except RecursionError:
+            msg = "recursion limit reached while generating JSON value"
+            raise OddsproutRecursionError(msg) from None
 
     def _generate_value(self) -> JSONValue:
         return choice(self._type_pool, self._weights)()
