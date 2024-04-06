@@ -1,5 +1,5 @@
 class OddsproutError(Exception):
-    """Base class for Oddsprout errors."""
+    """Base class for oddsprout errors."""
 
 
 class OddsproutConfigurationError(OddsproutError):
@@ -7,4 +7,8 @@ class OddsproutConfigurationError(OddsproutError):
 
 
 class OddsproutValueError(OddsproutError, ValueError):
-    """Exception for errors related to incorrect values provided to `generate_json`."""
+    """Exception for incorrect values provided to oddsprout objects."""
+
+
+class OddsproutRecursionError(OddsproutError, RecursionError):
+    """Exception for errors related to recursion limits caused by oddsprout."""
