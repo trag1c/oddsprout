@@ -28,7 +28,7 @@ oddsprout = "oddsprout.__main__:main"
 exclude_also = ["if TYPE_CHECKING:", "if sys.version_info.*:"]
 
 [tool.interrogate]
-exclude = ["tests"]
+exclude = ["tests", "*/__main__.py"]
 ignore-init-method = true
 ignore-semiprivate = true
 ignore-private = true
