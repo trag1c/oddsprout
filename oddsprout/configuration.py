@@ -29,7 +29,7 @@ Charset = Literal["ascii", "alpha", "alnum", "digits"]
 BaseKind = Literal["any", "array", "object"]
 
 
-class ConfigData(TypedDict):
+class _ConfigData(TypedDict):
     types: tuple[str, ...]
     base_size: tuple[int, int]
     string_size: tuple[int, int]
@@ -162,7 +162,7 @@ def _transform_config(config: dict[str, dict[str, Any]]) -> Config:
         # assuming "include" is not defined based on prior checks
         transformed["types"] = tuple(sorted(set(VALID_TYPES) - set(excluded_types)))
     transformed.update(types_config)
-    return Config(**cast(ConfigData, transformed))
+    return Config(**cast(_ConfigData, transformed))
 
 
 def load_config(path: PathLike[str] | str | None) -> Config:
