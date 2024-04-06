@@ -7,7 +7,7 @@ from typing import NoReturn, cast
 from dahlia import dahlia
 
 from oddsprout.configuration import load_config
-from oddsprout.exceptions import OddsproutError
+from oddsprout.exceptions import OddsproutConfigurationError
 from oddsprout.generators import JSONGenerator
 
 
@@ -30,7 +30,7 @@ def main() -> None:
     try:
         json_gen = JSONGenerator(load_config(config_path))
         print(json.dumps(json_gen.generate_value(), indent=2))
-    except OddsproutError as e:
+    except OddsproutConfigurationError as e:
         _dexit(e)
 
 
