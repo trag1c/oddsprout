@@ -3,6 +3,7 @@ from typing import Literal
 import pytest
 
 from oddsprout.configuration import Config
+from oddsprout.exceptions import OddsproutRecursionError
 from oddsprout.generators import JSONGenerator, _generate_float, _generate_int
 
 
@@ -26,6 +27,8 @@ def test_json_generator_repr() -> None:
 
 
 def test_json_generator_recursion_error() -> None:
-    gen = JSONGenerator(Config(base="object", collection_size=(500, 1000)))
-    with pytest.raises(RecursionError):
+    gen = JSONGenerator(
+        Config(types=("array",), collection_size=(10000, 10000), base_size=(100, 100))
+    )
+    with pytest.raises(OddsproutRecursionError):
         gen.generate_value()
