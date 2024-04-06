@@ -160,6 +160,10 @@ def test_load_config_pass(
     )
 
 
+def test_load_config_no_file() -> None:
+    assert load_config(None) == Config()
+
+
 def test_config_empty_types() -> None:
     with pytest.raises(OddsproutValueError, match="'types' can't be empty"):
         Config(types=())
@@ -175,3 +179,43 @@ def test_config_from_file(tmp_path: Path) -> None:
     )
     gen = Config.from_file(path)
     assert gen.base_size == (0, 17)
+
+
+def test_config_size_incorrect_type() -> None:
+    with pytest.raises(
+        OddsproutValueError,
+        match=re.escape("expected a (min, max) tuple for 'base_size'"),
+    ):
+        Config(base_size=1)  # type: ignore[arg-type]
+
+
+def test_config_size_max_less_than_min() -> None:
+    with pytest.raises(
+        OddsproutValueError,
+        match="max can't be less than min for 'base_size'",
+    ):
+        Config(base_size=(1, 0))
+
+
+def test_config_invalid_base() -> None:
+    with pytest.raises(
+        OddsproutValueError,
+        match="invalid base type 'invalid'",
+    ):
+        Config(base="invalid")  # type: ignore[arg-type]
+
+
+def test_config_invalid_charset() -> None:
+    with pytest.raises(
+        OddsproutValueError,
+        match="invalid charset 'invalid'",
+    ):
+        Config(charset="invalid")  # type: ignore[arg-type]
+
+
+def test_config_types_invalid() -> None:
+    with pytest.raises(
+        OddsproutValueError,
+        match="invalid types: 'invalid'",
+    ):
+        Config(types=("invalid", "int"))
