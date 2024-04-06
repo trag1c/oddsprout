@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import sys
 from typing import TYPE_CHECKING, Dict, List, Union
 
 from ixia import choice, choices, rand_bool, rand_int, uniform
@@ -10,8 +9,6 @@ from oddsprout.constants import CHARSETS
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-
-sys.setrecursionlimit(5_000)
 
 JSONObject = Dict[str, "JSONValue"]
 JSONArray = List["JSONValue"]
