@@ -16,10 +16,10 @@ dahlia = "^2.3.2"
 ruff = "^0.3.0"
 mypy = "^1.8.0"
 pytest = "^8.0.2"
-coverage = "^7.4.3"
 mkdocs = "^1.5.3"
 mkdocs-material = "^9.5.12"
-interrogate = "^1.5.0"
+interrogate = "^1.7.0"
+pytest-cov = "^5.0.0"
 
 [tool.poetry.scripts]
 oddsprout = "oddsprout.__main__:main"

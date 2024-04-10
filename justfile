@@ -18,8 +18,7 @@ lint:
 
 # checks test and docstring coverage
 coverage:
-    coverage run -m pytest
-    coverage report -m
+    pytest --cov=oddsprout --cov-report term-missing
     interrogate
 
 # runs the ruff formatter and ruff's isort
