@@ -46,7 +46,7 @@ def test_main_nonexistent_config(tmp_path: Path) -> None:
     with pytest.raises(
         SystemExit,
         match=(
-            r"\x1b\[31mERROR:\x1b\[0m [A-Za-z0-9/_-]+"
+            r"\x1b\[31mERROR:\x1b\[0m [A-Za-z0-9/\\:_-]+"
             r"nonexistent\.toml does not exist\x1b\[0m"
         ),
     ), patch("sys.argv", ["script", "--config", str(tmp_path / "nonexistent.toml")]):
