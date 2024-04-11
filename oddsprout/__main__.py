@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 import json
 import sys
 from argparse import ArgumentParser
 from pathlib import Path
-from typing import NoReturn, cast
+from typing import TYPE_CHECKING, cast
 
 from dahlia import dahlia
 
@@ -10,15 +12,18 @@ from oddsprout.configuration import load_config
 from oddsprout.exceptions import OddsproutConfigurationError
 from oddsprout.generators import JSONGenerator
 
+if TYPE_CHECKING:
+    from typing_extensions import Never
 
-def _parse_argv() -> Path:
+
+def _parse_argv() -> Path | None:
     parser = ArgumentParser()
     parser.add_argument("--config", type=Path, help="path to configuration file")
     args = parser.parse_args()
-    return cast(Path, args.config)
+    return cast("Path | None", args.config)
 
 
-def _dexit(message: object) -> NoReturn:
+def _dexit(message: object) -> Never:
     sys.exit(dahlia(f"&4ERROR:&r {message}"))
 
 
