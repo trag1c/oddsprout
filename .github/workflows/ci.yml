@@ -38,7 +38,7 @@ jobs:
       run: poetry install
     - name: Check coverage
       run: |
-        poetry run pytest --cov=oddsprout
+        poetry run pytest --cov=oddsprout --cov-report term-missing
         poetry run interrogate
     - name: Lint code
       if: always()
