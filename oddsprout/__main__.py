@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, cast
 from dahlia import dahlia
 
 from oddsprout.configuration import load_config
-from oddsprout.exceptions import OddsproutConfigurationError
+from oddsprout.exceptions import OddsproutError
 from oddsprout.generators import JSONGenerator
 
 if TYPE_CHECKING:
@@ -35,7 +35,7 @@ def main() -> None:
     try:
         json_gen = JSONGenerator(load_config(config_path))
         print(json.dumps(json_gen.generate_value(), indent=2))
-    except OddsproutConfigurationError as e:
+    except OddsproutError as e:
         _dexit(e)
 
 
