@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from itertools import starmap
 from typing import TYPE_CHECKING, Any, cast, get_args, get_origin
 
 if TYPE_CHECKING:
@@ -36,4 +35,4 @@ def matches_type(value: object, type_: Any) -> bool:
         return all(matches_type(item, args[0]) for item in value)
     if len(args) != len(value):
         return False
-    return all(starmap(matches_type, zip(value, args)))
+    return all(map(matches_type, value, args))
