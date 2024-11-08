@@ -13,9 +13,9 @@ def matches_type(value: object, type_: Any) -> bool:
 
     Examples:
     * `matches_type(1, int) -> True`
-    * `matches_type([1, 2, 3], List[int]) -> True`
-    * `matches_type([1, 2, '3'], List[int]) -> False`
-    * `matches_type({'a': 1, 'b': 2}, Dict[str, int]) -> True`
+    * `matches_type([1, 2, 3], list[int]) -> True`
+    * `matches_type([1, 2, '3'], list[int]) -> False`
+    * `matches_type({'a': 1, 'b': 2}, dict[str, int]) -> True`
     """
     if (origin := get_origin(type_)) is None:
         return isinstance(value, type_)
@@ -25,7 +25,7 @@ def matches_type(value: object, type_: Any) -> bool:
         return True
     if origin is dict:
         key_type, value_type = args
-        value = cast("dict[Any, Any]", value)
+        value = cast(dict[Any, Any], value)
         return all(
             matches_type(key, key_type) and matches_type(value, value_type)
             for key, value in value.items()
