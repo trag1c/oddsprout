@@ -2,7 +2,6 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-from flaky import flaky
 
 from oddsprout import __main__ as main
 
@@ -28,19 +27,24 @@ def test_main(tmp_path: Path) -> None:
         main.main()
 
 
-@flaky(max_runs=5)
 def test_main_recursion_error(tmp_path: Path) -> None:
     (cfg_path := tmp_path / "config.toml").write_text(
         '[bounds]\ncollection = [10000, 10000]\n\n[types]\ninclude = ["array"]\n'
     )
-    with pytest.raises(
-        SystemExit,
-        match=(
-            r"\x1b\[.*mERROR:\x1b\[0m recursion limit reached"
-            r" while generating JSON value\x1b\[0m"
-        ),
-    ), patch("sys.argv", ["script", "--config", str(cfg_path)]):
-        main.main()
+    for attempt in range(5):
+        try:
+            with pytest.raises(
+                SystemExit,
+                match=(
+                    r"\x1b\[.*mERROR:\x1b\[0m recursion limit reached"
+                    r" while generating JSON value\x1b\[0m"
+                ),
+            ), patch("sys.argv", ["script", "--config", str(cfg_path)]):
+                main.main()
+            break
+        except BaseException:  # noqa: BLE001
+            if attempt == 4:
+                raise
 
 
 def test_main_nonexistent_config(tmp_path: Path) -> None:
