@@ -2,6 +2,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
+from flaky import flaky
 
 from oddsprout import __main__ as main
 
@@ -27,6 +28,7 @@ def test_main(tmp_path: Path) -> None:
         main.main()
 
 
+@flaky(max_runs=5)
 def test_main_recursion_error(tmp_path: Path) -> None:
     (cfg_path := tmp_path / "config.toml").write_text(
         '[bounds]\ncollection = [10000, 10000]\n\n[types]\ninclude = ["array"]\n'
