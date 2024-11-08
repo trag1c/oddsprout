@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Dict, List, Union
+from typing import TYPE_CHECKING, Union
 
 from ixia import choice, choices, rand_bool, rand_int, uniform
 
@@ -11,8 +11,8 @@ from oddsprout.exceptions import OddsproutRecursionError
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-JSONObject = Dict[str, "JSONValue"]
-JSONArray = List["JSONValue"]
+JSONObject = dict[str, "JSONValue"]
+JSONArray = list["JSONValue"]
 JSONValue = Union[JSONObject, JSONArray, str, int, float, bool, None]
 NoneType = type(None)
 
