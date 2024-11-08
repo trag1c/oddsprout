@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "oddsprout"
-version = "0.1.0"
+version = "0.1.1"
 description = "Generate random JSON with no schemas involved"
 authors = ["trag1c <trag1cdev@yahoo.com>"]
 license = "MIT"
