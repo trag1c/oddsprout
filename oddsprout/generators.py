@@ -31,7 +31,7 @@ class JSONGenerator:
             "int": _generate_int,
             "float": _generate_float,
             "boolean": rand_bool,
-            "null": NoneType,  # type: ignore[dict-item]
+            "null": NoneType,
         }
         types = list(config.types)
         if "number" in types:

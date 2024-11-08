@@ -6,7 +6,7 @@ from argparse import ArgumentParser
 from pathlib import Path
 from typing import TYPE_CHECKING, cast
 
-from dahlia import dahlia
+from dahlia import Dahlia
 
 from oddsprout.configuration import load_config
 from oddsprout.exceptions import OddsproutError
@@ -24,7 +24,7 @@ def _parse_argv() -> Path | None:
 
 
 def _dexit(message: object) -> Never:
-    sys.exit(dahlia(f"&4ERROR:&r {message}"))
+    sys.exit(Dahlia().convert(f"&4ERROR:&R {message}"))
 
 
 def main() -> None:
