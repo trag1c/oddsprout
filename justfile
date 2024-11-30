@@ -1,27 +1,22 @@
 _default:
     @just --list
 
-# installs the project and activates the venv
-install:
-    poetry install
-    poetry shell
-
 # runs pytest and strict mypy
 test:
-    pytest
-    mypy --strict oddsprout tests
+    uv run pytest
+    uv run mypy --strict src tests
 
 # runs ruff lint and format checks
 lint:
-    ruff check
-    ruff format --check
+    uv run ruff check
+    uv run ruff format --check
 
 # checks test and docstring coverage
 coverage:
-    pytest --cov=oddsprout --cov-report term-missing
-    interrogate
+    uv run pytest --cov=src --cov-report term-missing
+    uv run interrogate
 
 # runs the ruff formatter and ruff's isort
-format:
-    ruff format
-    ruff check --select=I --fix
+fmt:
+    uv run ruff format
+    uv run ruff check --select=I --fix

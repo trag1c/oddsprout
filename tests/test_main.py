@@ -33,38 +33,47 @@ def test_main_recursion_error(tmp_path: Path) -> None:
     )
     for attempt in range(5):
         try:
-            with pytest.raises(
-                SystemExit,
-                match=(
-                    r"\x1b\[.*mERROR:\x1b\[0m recursion limit reached"
-                    r" while generating JSON value\x1b\[0m"
+            with (
+                pytest.raises(
+                    SystemExit,
+                    match=(
+                        r"\x1b\[.*mERROR:\x1b\[0m recursion limit reached"
+                        r" while generating JSON value\x1b\[0m"
+                    ),
                 ),
-            ), patch("sys.argv", ["script", "--config", str(cfg_path)]):
+                patch("sys.argv", ["script", "--config", str(cfg_path)]),
+            ):
                 main.main()
             break
-        except BaseException:  # noqa: BLE001
+        except BaseException:
             if attempt == 4:
                 raise
 
 
 def test_main_nonexistent_config(tmp_path: Path) -> None:
-    with pytest.raises(
-        SystemExit,
-        match=(
-            r"\x1b\[.*mERROR:\x1b\[0m [A-Za-z0-9/\\\.:_-]+"
-            r"nonexistent\.toml does not exist\x1b\[0m"
+    with (
+        pytest.raises(
+            SystemExit,
+            match=(
+                r"\x1b\[.*mERROR:\x1b\[0m [A-Za-z0-9/\\\.:_-]+"
+                r"nonexistent\.toml does not exist\x1b\[0m"
+            ),
         ),
-    ), patch("sys.argv", ["script", "--config", str(tmp_path / "nonexistent.toml")]):
+        patch("sys.argv", ["script", "--config", str(tmp_path / "nonexistent.toml")]),
+    ):
         main.main()
 
 
 def test_main_invalid_config(tmp_path: Path) -> None:
     (cfg_path := tmp_path / "config.toml").write_text("invalid")
-    with pytest.raises(
-        SystemExit,
-        match=(
-            r"\x1b\[.*mERROR:\x1b\[0m TOMLDecodeError: Expected '=' after a"
-            r" key in a key\/value pair \(at end of document\)\x1b\[0m"
+    with (
+        pytest.raises(
+            SystemExit,
+            match=(
+                r"\x1b\[.*mERROR:\x1b\[0m TOMLDecodeError: Expected '=' after a"
+                r" key in a key\/value pair \(at end of document\)\x1b\[0m"
+            ),
         ),
-    ), patch("sys.argv", ["script", "--config", str(cfg_path)]):
+        patch("sys.argv", ["script", "--config", str(cfg_path)]),
+    ):
         main.main()
