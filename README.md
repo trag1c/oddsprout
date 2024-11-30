@@ -1,4 +1,4 @@
-[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 # oddsprout
@@ -13,7 +13,7 @@ See the [documentation] for usage.
 ## Installation
 If you only intend to use it as a CLI tool:
 ```sh
-pipx install oddsprout
+uvx oddsprout
 ```
 
 ---
@@ -36,16 +36,12 @@ change like fixing a typo).
 
 To get started:
 1. Clone your fork of the project.
-2. Set up the project with [just] (make sure you have [poetry] installed):
+2. Install the project with [uv]:
 ```sh
-just install
+uv sync
 ```
-
-> [!Note]
-> If you don't want to install `just`, simply look up the recipes
-> in the project's [`justfile`][justfile].
-
-3. After you're done, use the following `just` recipes to check your changes:
+3. After you're done, use the following [`just`][just] recipes to check your
+   changes (or run the commands manually):
 ```sh
 just test      # runs pytest and mypy
 just lint      # runs the ruff linter and formatter in check mode
@@ -60,6 +56,5 @@ just coverage  # checks UT and docstring coverage
 [MIT License]: https://opensource.org/license/mit/
 [trag1c]: https://github.com/trag1c/
 [documentation]: https://trag1c.github.io/oddsprout
-[poetry]: https://python-poetry.org/
+[uv]: https://docs.astral.sh/uv/
 [just]: https://github.com/casey/just/
-[justfile]: https://github.com/trag1c/oddsprout/blob/main/justfile
