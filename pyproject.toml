@@ -8,9 +8,7 @@ version = "0.1.2"
 description = "Generate random JSON with no schemas involved"
 readme = "README.md"
 license = { file = "LICENSE" }
-authors = [
-    { name = "trag1c", email = "trag1cdev@yahoo.com" }
-]
+authors = [{ name = "trag1c", email = "trag1cdev@yahoo.com" }]
 requires-python = ">=3.9"
 dependencies = [
     "dahlia~=3.0",
@@ -37,7 +35,11 @@ dev = [
 ]
 
 [tool.coverage.report]
-exclude_also = ["if TYPE_CHECKING:", "if sys.version_info.*:", "if __name__ == \"__main__\":"]
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "if sys.version_info.*:",
+    "if __name__ == \"__main__\":",
+]
 
 [tool.interrogate]
 exclude = ["tests", "src/oddsprout/__main__.py"]
