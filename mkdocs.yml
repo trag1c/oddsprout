@@ -1,7 +1,7 @@
 site_name: Oddsprout
 repo_url: https://github.com/trag1c/oddsprout
 repo_name: trag1c/oddsprout
-copyright: Copyright &copy; 2024 trag1c
+copyright: Copyright &copy; 2024–2025 trag1c
 nav:
   - Home: index.md
   - Usage: usage.md
